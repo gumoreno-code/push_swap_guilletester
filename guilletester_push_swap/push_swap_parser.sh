@@ -1,0 +1,188 @@
+#!/bin/bash
+
+__nc()      { echo -e "\033[0m"; }
+_red()      { echo -ne "\033[31m$1"$(__nc); }
+_yellow()   { echo -ne "\033[33m$1"$(__nc); }
+_yellow_bold()   { echo -ne "\033[1;33m$1"$(__nc); }
+_blue()     { echo -e "\033[34m$1"$(__nc); }
+_green()    { echo -ne "\033[32m$1"$(__nc); }
+_magenta()     { echo -ne "\033[35m$1"$(__nc); }
+_cian()     { echo -ne "\033[36m$1"$(__nc); }
+
+info(){
+	tput cnorm
+	echo -e "
+$(_magenta  "guilletester_push_swap_parser Version 1.0 by gumoreno")
+
+
+   * How to use it:
+	
+	$(_yellow_bold "./push_swap_parser.sh")
+			
+   * You can use the following flags:
+
+	$(_yellow "--only_failed")
+
+   Enjoy it ;)
+
+"
+}
+
+help(){
+	echo -e "
+$(_magenta  "guilletester_push_swap_parser Version 1.0 by gumoreno")
+	
+	$(_yellow  "--help")
+	"
+}
+
+handle_exec(){
+	if [ ! -r ../push_swap ]; then
+		if [ ! -r ../Makefile ]; then
+			echo -e " your Makefile is missing...\n"
+			exit 1
+		fi
+		echo -e "  executing your Makefile..."
+		echo -e "\033[1A\033[1A"
+		make -C ../ re > /dev/null
+		echo -e "          ready!!               "
+		sleep 1
+		echo -e "\033[1A\033[1A"
+	else
+		make -C ../ > /dev/null
+	fi
+	$(mkdir -p ./temp)
+	$(cp ../push_swap ./temp/)
+}
+
+ARG_ERROR=(	
+	'./temp/push_swap ""' 
+	'./temp/push_swap "    "' 
+	'./temp/push_swap 1 1 '
+	'./temp/push_swap 0-0 '
+	'./temp/push_swap 1+1  '
+	'./temp/push_swap -1 -1  '
+	'./temp/push_swap ++1  '
+	'./temp/push_swap --1  '
+	'./temp/push_swap +-1 '
+	'./temp/push_swap 1- '
+	'./temp/push_swap 1+ '
+	'./temp/push_swap 1a '
+	'./temp/push_swap 1 2 3 a '
+	'./temp/push_swap - 1 2 3  '
+	'./temp/push_swap 2147483648  '
+	'./temp/push_swap -2147483649  '
+	'./temp/push_swap 18446744073709551615  '
+	'./temp/push_swap 12345678912345  '
+	'./temp/push_swap hola  '
+	'./temp/push_swap -  '
+	'./temp/push_swap +  '
+	# './temp/push_swap \n  '
+	# './temp/push_swap \t '
+	'./temp/push_swap   ""  '
+	'./temp/push_swap   " "  '
+	'./temp/push_swap   -'"'"2"'"'8 -28   "5 1" '
+	)
+
+ARG_OK=(	
+	# './temp/push_swap ""  '
+	'./temp/push_swap "1" '
+	'./temp/push_swap "1 " '
+	'./temp/push_swap " 1" '
+	'./temp/push_swap " 1 " '
+	'./temp/push_swap -1 2 3  '
+	'./temp/push_swap " -1 2 3  " '
+	'./temp/push_swap  -01 002 +00003  '
+	'./temp/push_swap 000000000  '
+	'./temp/push_swap -000000000  '
+	'./temp/push_swap 00004200  '
+	'./temp/push_swap -00004200  '
+	'./temp/push_swap 00000000000000000000000000000000  '
+	'./temp/push_swap -00000000000000000000000000000000  '
+	'./temp/push_swap 000000000000000000000000000000009  '
+	'./temp/push_swap -000000000000000000000000000000009 '
+	'./temp/push_swap 2147483647 '
+	'./temp/push_swap -2147483648 '
+	'./temp/push_swap   -'"'"2"'"'8 -2 8  "35 100" '
+	) 
+
+check_parsing(){
+	local PARSE_STATUS=1
+	local FIRST_ERROR_FAILED=true
+	local FIRST_OK_FAILED=true
+
+	if [[ $ONLY_FAILED = false ]]; then
+			echo -e $(_cian "Wrong args check:")"\n"
+	fi
+	for arg in "${ARG_ERROR[@]}"; do
+ 		OUTPUT=$(eval $arg 2>&1)
+		if ! [[ "$OUTPUT" = "Error" ]]; then
+			if [[ $FIRST_ERROR_FAILED = true  && $ONLY_FAILED = true ]]; then
+				echo -e $(_cian "Wrong args check:")"\n"
+				FIRST_ERROR_FAILED=false
+			fi
+			echo -e $(_red " ✘ ")"."${arg:6}
+			# echo -ne  "\t\t" {$OUTPUT}"  "
+			PARSE_STATUS=0;
+		elif [ $ONLY_FAILED = false ]; then
+			echo -e $(_green " ✔ ")"."${arg:6}
+			# echo -ne  "\t\t" {$OUTPUT}"  "
+		fi
+    done
+	if [[ $ONLY_FAILED = true && $FIRST_ERROR_FAILED = false ]]; then
+			echo -e 
+	fi
+	if [[ $ONLY_FAILED = false ]]; then
+			echo -e "\n"$(_cian "Valid args check:")"\n"
+	fi
+	for arg in "${ARG_OK[@]}"; do
+ 		OUTPUT=$(eval $arg 2>&1)
+		if ! [[ "$OUTPUT" = "" ]]; then
+			if [[ $FIRST_OK_FAILED = true && $ONLY_FAILED = true ]]; then
+				echo -e $(_cian "Valid args check:")"\n"
+				FIRST_OK_FAILED=false
+			fi
+			echo -e $(_red " ✘ ")"."${arg:6}
+			# echo -ne  "\t\t" {$OUTPUT}"  "
+			PARSE_STATUS=0;
+		elif [ $ONLY_FAILED = false ]; then
+			echo -e $(_green " ✔ ")"."${arg:6}
+			# echo -ne  "\t\t" {$OUTPUT}"  "
+		fi
+    done
+	if [[ $PARSE_STATUS = 1 && $ONLY_FAILED = true ]]; then
+		echo -e $(_green " ✔ ")" Parsing: OK    "
+	fi
+	echo -e 
+	if [[ $ONLY_FAILED = true && $FIRST_OK_FAILED = true && $PARSE_STATUS = 0 ]]; then
+		echo -e "\033[1A\033[1A"
+	fi
+}
+
+parsing(){
+	if [ "$1" = "--help" ]; then
+		info
+		exit 0
+	fi
+	if ! [[ "$1" = "--only_failed" || -z "$1" ]]; then
+		help
+		exit 1
+	fi
+}
+
+init(){
+	ONLY_FAILED=false
+	if [ "$1" = "--only_failed" ]; then
+		ONLY_FAILED=true
+	fi
+	tput civis
+	trap 'tput cnorm; rm -r temp;' INT TERM 
+	trap 'tput cnorm; rm -r temp; exit;' EXIT
+}
+
+parsing $@
+init $@
+echo -e "\n"$(_blue "PARSING TEST - PUSH_SWAP")"\n"
+handle_exec
+check_parsing
+exit 0
