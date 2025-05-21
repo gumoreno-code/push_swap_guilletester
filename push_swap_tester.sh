@@ -61,7 +61,7 @@ print_to_order_log()
 		echo -e "   fish --> set ARG \""$ARG"\"; ./push_swap \$ARG | ./checker_Mac \$ARG\n" >> ./ps_log/unsorted_combs_log.txt
 	elif [ $op_sys = "Linux" ]; then
 		echo -e "Unsorted combination on "$1" ramdom numbers  ("$(date "+%c")")\n   bash -->     ARG=\""$ARG"\"; ./push_swap \$ARG | ./checker_linux \$ARG" >> ./ps_log/unsorted_combs_log.txt
-		echo -e "   fish --> set ARG \""$ARG"\"; ./push_swap \$ARG | ./checker_linux \$ARG\n" >> ./ps_log/unsorted_combslog.txt
+		echo -e "   fish --> set ARG \""$ARG"\"; ./push_swap \$ARG | ./checker_linux \$ARG\n" >> ./ps_log/unsorted_combs_log.txt
 	fi
 }
 

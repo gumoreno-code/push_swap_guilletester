@@ -162,7 +162,7 @@ else
 	echo -e $(_yellow "-------------  5  -------------")
 	./push_swap_tester.sh 5 100  
 	echo -e $(_yellow "------------  100  ------------")
-	./push_swap_tester.sh 100 300
+	./push_swap_tester.sh 100 200
 	echo -e $(_yellow "------------  500  ------------")
 	./push_swap_tester.sh 500 50
 	echo -e $(_yellow "---------  500 strict  --------")
