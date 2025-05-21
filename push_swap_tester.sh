@@ -51,7 +51,7 @@ $(_magenta  "guilletester_push_swap_tester Version 1.1 by gumoreno")
 print_to_overlimit_log()
 {
 	echo -e $NB_OP "operations on "$1" ramdom numbers  ("$(date "+%c")")\n   bash -->     ARG=\""$ARG"\"; ./push_swap \$ARG | wc -l" >> ./ps_log/overlimit_combs_log.txt
-	echo -e "   fish --> set ARG \""$ARG"\"; ./push_swap \$ARG | wc -l\n" >> ./ps_log/overlimit_combslog.txt
+	echo -e "   fish --> set ARG \""$ARG"\"; ./push_swap \$ARG | wc -l\n" >> ./ps_log/overlimit_combs_log.txt
 }
 
 print_to_order_log()
@@ -320,7 +320,7 @@ do
 		fi
 	elif [ "$ORDER" != "OK" ]; then
 		error_clear
-		echo -e "\n    Ups... Error :( \n\n    Your push_swap probably does not handle the arguments correctly\n    or does not only print operations.\n "
+		echo -e "\n    Ooops... Error :( \n\n    Your push_swap probably does not handle the arguments correctly\n    or does not only print operations.\n "
 		exit 41
 	fi
 	if [ $NB_OP -gt $MAX_NB_OP ]; then

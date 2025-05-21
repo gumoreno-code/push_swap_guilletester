@@ -1,6 +1,7 @@
 #!/bin/bash
 
 __nc()			{ echo -e "\033[0m"; }
+_red()      { echo -ne "\033[31m$1"$(__nc); }
 _yellow()		{ echo -ne "\033[33m$1"$(__nc); }
 _yellow_bold()	{ echo -ne "\033[1;33m$1"$(__nc); }
 _blue()			{ echo -e "\033[34m$1"$(__nc); }
@@ -70,10 +71,33 @@ parsing(){
 	fi
 }
 
+check_norminette(){
+	local NORM=true
+
+	if ! which norminette &> /dev/null ; then
+		echo -e "\n\n Ooops... Norminette is not installed!! :(\n"
+	else
+		mkdir -p temp
+		norminette ../ > temp/norminette_output.txt
+		while IFS= read -r line
+		do
+			if [[ "$line" != *": OK!" ]]; then
+				NORM=false
+			fi
+		done < temp/norminette_output.txt 
+		if [ $NORM = true ]; then
+			echo -e "\n\n"$(_green " ✔ ")" Norminette: OK\n"
+		else 
+			echo -e "\n\n"$(_red " ✘ ")" Norminette: failed\n"
+		fi	
+	fi
+
+}
+
 init(){
 	tput civis
-	trap 'tput cnorm; exit 42;' INT TERM 
-	trap 'tput cnorm; exit;' EXIT
+	trap 'tput cnorm; rm -rf temp; exit 42;' INT TERM 
+	trap 'tput cnorm; rm -rf temp; exit;' EXIT
 }
 
 parsing $@
@@ -81,7 +105,11 @@ init $@
 clear
 echo -e "\n"$(_blue "  EVALUATION TEST - PUSH_SWAP")"\n"
 handle_exec
-echo -e "\n"$(_yellow     "--------  Parsing test  -------")
+echo -e "\n"$(_yellow     "---------  Norminette  --------")
+
+check_norminette
+
+echo -e "\n"$(_yellow     "------  ARG Parsing test  -----")
 ./push_swap_parser.sh --only_failed | sed '2d'
 echo -e 
 if [ "$1" = "--lite" ]; then
