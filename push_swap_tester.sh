@@ -1,17 +1,17 @@
 #!/bin/bash
 
-__nc()      { echo -e "\033[0m"; }
-_red()      { echo -ne "\033[31m$1"$(__nc); }
-_green()    { echo -ne "\033[32m$1"$(__nc); }
-_yellow()   { echo -ne "\033[33m$1"$(__nc); }
-_yellow_bold()   { echo -ne "\033[1;33m$1"$(__nc); }
-_blue()     { echo -ne "\033[34m$1"$(__nc); }
-_magenta()     { echo -ne "\033[35m$1"$(__nc); }
+__nc()      	{ echo -e "\033[0m"; }
+_red()      	{ echo -ne "\033[31m$1"$(__nc); }
+_green()   		{ echo -ne "\033[32m$1"$(__nc); }
+_yellow()		{ echo -ne "\033[33m$1"$(__nc); }
+_yellow_bold()  { echo -ne "\033[1;33m$1"$(__nc); }
+_blue()     	{ echo -ne "\033[34m$1"$(__nc); }
+_magenta()     	{ echo -ne "\033[35m$1"$(__nc); }
 
 info(){
 	tput cnorm
 	echo -e "
-$(_magenta  "guilletester_push_swap_tester Version 1.1 by gumoreno")
+$(_magenta  "push_swap_guilletester "tester" Version 1.0 by gumoreno")
 
 
    * How to use it:
@@ -41,7 +41,7 @@ $(_magenta  "guilletester_push_swap_tester Version 1.1 by gumoreno")
 
 help(){
 	echo -e "
-$(_magenta  "guilletester_push_swap_tester Version 1.1 by gumoreno")
+$(_magenta  "push_swap_guilletester "tester" Version 1.0 by gumoreno")
 	
 	$(_yellow  "--help")
 	"
@@ -175,7 +175,7 @@ interrupted(){
 	fi
 	results
 	echo -e "\n\n"
-	exit 42
+	exit 1
 }
 
 error_clear(){

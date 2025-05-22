@@ -1,18 +1,18 @@
 #!/bin/bash
 
-__nc()      { echo -e "\033[0m"; }
-_red()      { echo -ne "\033[31m$1"$(__nc); }
-_yellow()   { echo -ne "\033[33m$1"$(__nc); }
-_yellow_bold()   { echo -ne "\033[1;33m$1"$(__nc); }
-_blue()     { echo -e "\033[34m$1"$(__nc); }
-_green()    { echo -ne "\033[32m$1"$(__nc); }
-_magenta()     { echo -ne "\033[35m$1"$(__nc); }
-_cian()     { echo -ne "\033[36m$1"$(__nc); }
+__nc()     		{ echo -e "\033[0m"; }
+_red()      	{ echo -ne "\033[31m$1"$(__nc); }
+_yellow()   	{ echo -ne "\033[33m$1"$(__nc); }
+_yellow_bold()  { echo -ne "\033[1;33m$1"$(__nc); }
+_blue()     	{ echo -e "\033[34m$1"$(__nc); }
+_green()    	{ echo -ne "\033[32m$1"$(__nc); }
+_magenta()     	{ echo -ne "\033[35m$1"$(__nc); }
+_cian()     	{ echo -ne "\033[36m$1"$(__nc); }
 
 info(){
 	tput cnorm
 	echo -e "
-$(_magenta  "guilletester_push_swap_parser Version 1.0 by gumoreno")
+$(_magenta  "push_swap_guilletester "parser" Version 1.0 by gumoreno")
 
 
    * How to use it:
@@ -30,7 +30,7 @@ $(_magenta  "guilletester_push_swap_parser Version 1.0 by gumoreno")
 
 help(){
 	echo -e "
-$(_magenta  "guilletester_push_swap_parser Version 1.0 by gumoreno")
+$(_magenta  "push_swap_guilletester "parser" Version 1.0 by gumoreno")
 	
 	$(_yellow  "--help")
 	"
@@ -93,7 +93,6 @@ ARG_ERROR=(
 	)
 
 ARG_OK=(	
-	# './temp/push_swap ""  '
 	'./temp/push_swap '
 	'./temp/push_swap "1" '
 	'./temp/push_swap "1 " '

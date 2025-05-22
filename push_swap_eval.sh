@@ -1,7 +1,7 @@
 #!/bin/bash
 
 __nc()			{ echo -e "\033[0m"; }
-_red()      { echo -ne "\033[31m$1"$(__nc); }
+_red()    		{ echo -ne "\033[31m$1"$(__nc); }
 _yellow()		{ echo -ne "\033[33m$1"$(__nc); }
 _yellow_bold()	{ echo -ne "\033[1;33m$1"$(__nc); }
 _blue()			{ echo -e "\033[34m$1"$(__nc); }
@@ -11,7 +11,7 @@ _magenta()		{ echo -ne "\033[35m$1"$(__nc); }
 info(){
 	tput cnorm
 	echo -e "
-$(_magenta  "guilletester_push_swap_eval Version 1.1 by gumoreno")
+$(_magenta  "push_swap_guilletester "eval" Version 1.0 by gumoreno")
 
 
    * How to use it:
@@ -35,7 +35,7 @@ $(_magenta  "guilletester_push_swap_eval Version 1.1 by gumoreno")
 
 help(){
 	echo -e "
-$(_magenta  "guilletester_push_swap_eval Version 1.1 by gumoreno")
+$(_magenta  "push_swap_guilletester "eval" Version 1.0 by gumoreno")
 	
 	$(_yellow  "--help")
 	"
@@ -96,7 +96,7 @@ check_norminette(){
 
 init(){
 	tput civis
-	trap 'tput cnorm; rm -rf temp; exit 42;' INT TERM 
+	trap 'tput cnorm; rm -rf temp; exit 1;' INT TERM 
 	trap 'tput cnorm; rm -rf temp; exit;' EXIT
 }
 
@@ -106,9 +106,7 @@ clear
 echo -e "\n"$(_blue "  EVALUATION TEST - PUSH_SWAP")"\n"
 handle_exec
 echo -e "\n"$(_yellow     "---------  Norminette  --------")
-
 check_norminette
-
 echo -e "\n"$(_yellow     "------  ARG Parsing test  -----")
 ./push_swap_parser.sh --only_failed | sed '2d'
 echo -e 
