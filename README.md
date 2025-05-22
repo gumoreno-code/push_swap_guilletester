@@ -1,6 +1,6 @@
 # push_swap_guilletester
 
-Welcome to push_swap_guilleteser. A tester made with love by gumoreno, me :) in order to help you to improve your project 42 “push_swap” :)
+Welcome to push_swap_guilleteser. A tester made with love by gumoreno, me :) in order to help you to improve your 42 project “push_swap” :)
 
 Clone the repo into your push_swap folder (at the same level of your Makefile) and enter it. 
 
