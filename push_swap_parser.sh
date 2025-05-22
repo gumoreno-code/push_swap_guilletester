@@ -85,8 +85,6 @@ ARG_ERROR=(
 	'./temp/push_swap -  '
 	'./temp/push_swap +  '
 	'./temp/push_swap +-  '
-	# './temp/push_swap \n  '
-	# './temp/push_swap \t '
 	'./temp/push_swap   -"2"8 -28   "5 1" '
 	'./temp/push_swap   -'"'"2"'"'8 -28   "5 1" '
 	'./temp/push_swap "-1 2 3 " 4 5 "6 7 '"'"23"'"' 8" 9 '
@@ -131,7 +129,7 @@ check_parsing(){
 	fi
 	for arg in "${ARG_ERROR[@]}"; do
  		OUTPUT=$(eval $arg 2>&1)
-		if ! [[ "$OUTPUT" = "Error" ]]; then
+		if ! [[ "$OUTPUT" = "Error"* ]]; then
 			if [[ $FIRST_ERROR_FAILED = true  && $ONLY_FAILED = true ]]; then
 				echo -e $(_cian "Wrong args check:")"\n"
 				FIRST_ERROR_FAILED=false

@@ -16,17 +16,17 @@ $(_magenta  "push_swap_guilletester "tester" Version 1.0 by gumoreno")
 
    * How to use it:
 	
-	$(_yellow_bold "./push_swap_tester.sh") $(_yellow "<how many ramdom numbers> <number of iterations>")	
+	$(_yellow_bold "./push_swap_tester.sh") $(_yellow "<how many ramdom numbers> <number of iterations> [flags]")	
 			
 		--> example:  ./push_swap_tester.sh 500 30  -> 30 iterations of 500 ramdom numbers
 
-	$(_yellow_bold "./push_swap_tester.sh") $(_yellow "--strict")						
+	$(_yellow_bold "./push_swap_tester.sh") $(_yellow "--strict") 						
 			
 		--> special selection of push_swap destroyer 500 numbers combinations :)  
 		            
-			(try "$(_yellow_bold "./push_swap_tester.sh") $(_yellow "--pepestrict") "if you can't waste time)
+			(try "$(_yellow_bold "./push_swap_tester.sh ") $(_yellow "--pepestrict [flags]") "if you can't waste time)
 
-   * You can alse use the following flags:
+   * You can use the following flags:
 
 	$(_yellow "--silent")  --> results will be shown at the end of the process
 
