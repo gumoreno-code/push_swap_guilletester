@@ -287,6 +287,7 @@ init(){
 		fi
 	order_failed=0;
 	op_sys=$(uname)
+	mkdir -p ps_log/
 	tput civis
 	trap 'tput cnorm; rm -r temp; exit' INT TERM EXIT
 	trap 'interrupted' INT TERM
