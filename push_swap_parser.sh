@@ -150,7 +150,7 @@ check_parsing(){
 	fi
 	for arg in "${ARG_OK[@]}"; do
  		OUTPUT=$(eval $arg 2>&1)
-		if [[ "$OUTPUT" = "Error"* ||   ]]; then
+		if [[ "$OUTPUT" = "Error"* ]]; then
 			if [[ $FIRST_OK_FAILED = true && $ONLY_FAILED = true ]]; then
 				echo -e $(_cian "Valid args check:")"\n"
 				FIRST_OK_FAILED=false
