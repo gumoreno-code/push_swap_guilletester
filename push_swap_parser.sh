@@ -114,7 +114,7 @@ ARG_OK=(
 	'./temp/push_swap -00004200  '
 	'./temp/push_swap 00000000000000000000000000000000  '
 	'./temp/push_swap -00000000000000000000000000000000  '
-	'./temp/push_swap 00000000000000000s0000000000000009  '
+	'./temp/push_swap 000000000000000000000000000000009  '
 	'./temp/push_swap -000000000000000000000000000000009 '
 	'./temp/push_swap 2147483647 '
 	'./temp/push_swap -2147483648 '
@@ -130,13 +130,13 @@ check_parsing(){
 	local FIRST_OK_FAILED=true
 
 	if [[ $ONLY_FAILED = false ]]; then
-			echo -e $(_cian "Wrong args check (output must be "Error"):")"\n"
+			echo -e $(_cian "Wrong args check (output must be \"Error\"):")"\n"
 	fi
 	for arg in "${ARG_ERROR[@]}"; do
  		OUTPUT=$(eval $arg 2>&1)
 		if ! [[ "$OUTPUT" = "Error"* ]]; then
 			if [[ $FIRST_ERROR_FAILED = true  && $ONLY_FAILED = true ]]; then
-				echo -e $(_cian "Wrong args check (output must be "Error"):")"\n"
+				echo -e $(_cian "Wrong args check (output must be \"Error\"):")"\n"
 				FIRST_ERROR_FAILED=false
 			fi
 			echo -e $(_red " ✘ ")"."${arg:6}
