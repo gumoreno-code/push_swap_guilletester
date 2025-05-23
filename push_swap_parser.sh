@@ -98,7 +98,12 @@ ARG_OK=(
 	'./temp/push_swap " 1 " '
 	'./temp/push_swap -1 2 3  '
 	'./temp/push_swap " -1 2 +3  " '
-	'./temp/push_swap " -1 2 3  " "41 42 43 " '
+	'./temp/push_swap "1 2 3" '
+	'./temp/push_swap "1 2 3 " '
+	'./temp/push_swap " 1 2 3" '
+	'./temp/push_swap " 1 2 3 " '
+	'./temp/push_swap "42 2 3 -42" '
+	'./temp/push_swap " -1 2 3  " "41 42 43" '
 	'./temp/push_swap "-1 2 3" "41 42 43 " "500 501 502" '
 	'./temp/push_swap -0 '
 	'./temp/push_swap +0 1 2 '
@@ -131,7 +136,7 @@ check_parsing(){
  		OUTPUT=$(eval $arg 2>&1)
 		if ! [[ "$OUTPUT" = "Error"* ]]; then
 			if [[ $FIRST_ERROR_FAILED = true  && $ONLY_FAILED = true ]]; then
-				echo -e $(_cian "Wrong args check:")"\n"
+				echo -e $(_cian "Wrong args check (output == "Error")")"\n"
 				FIRST_ERROR_FAILED=false
 			fi
 			echo -e $(_red " ✘ ")"."${arg:6}
@@ -146,7 +151,7 @@ check_parsing(){
 			echo -e 
 	fi
 	if [[ $ONLY_FAILED = false ]]; then
-			echo -e "\n"$(_cian "Valid args check:")"\n"
+			echo -e "\n"$(_cian "Valid args check: (output != "Error")")"\n"
 	fi
 	for arg in "${ARG_OK[@]}"; do
  		OUTPUT=$(eval $arg 2>&1)
