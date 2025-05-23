@@ -151,13 +151,13 @@ check_parsing(){
 			echo -e 
 	fi
 	if [[ $ONLY_FAILED = false ]]; then
-			echo -e "\n"$(_cian "Valid args check (output must not be "Error"):")"\n"
+			echo -e "\n"$(_cian "Valid args check (output must not be \"Error\"):")"\n"
 	fi
 	for arg in "${ARG_OK[@]}"; do
  		OUTPUT=$(eval $arg 2>&1)
 		if [[ "$OUTPUT" = "Error"* ]]; then
 			if [[ $FIRST_OK_FAILED = true && $ONLY_FAILED = true ]]; then
-				echo -e $(_cian "Valid args check (output must not be "Error"):")"\n"
+				echo -e $(_cian "Valid args check (output must not be \"Error\"):")"\n"
 				FIRST_OK_FAILED=false
 			fi
 			echo -e $(_red " ✘ ")"."${arg:6}
