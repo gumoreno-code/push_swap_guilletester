@@ -1,18 +1,21 @@
 #!/bin/bash
 
-__nc()     		{ echo -e "\033[0m"; }
-_red()      	{ echo -ne "\033[31m$1"$(__nc); }
-_yellow()   	{ echo -ne "\033[33m$1"$(__nc); }
-_yellow_bold()  { echo -ne "\033[1;33m$1"$(__nc); }
-_blue()     	{ echo -e "\033[34m$1"$(__nc); }
-_green()    	{ echo -ne "\033[32m$1"$(__nc); }
-_magenta()     	{ echo -ne "\033[35m$1"$(__nc); }
-_cian()     	{ echo -ne "\033[36m$1"$(__nc); }
+__nc()      	{ echo -e "\033[0m"; }
+_red()      	{ echo -ne "\033[31m""$1"$(__nc); }
+_green()   		{ echo -ne "\033[32m""$1"$(__nc); }
+_yellow()		{ echo -ne "\033[33m""$1"$(__nc); }
+_yellow_bold()  { echo -ne "\033[1;33m""$1"$(__nc); }
+_blue()     	{ echo -ne "\033[34m""$1"$(__nc); }
+_magenta()     	{ echo -ne "\033[35m""$1"$(__nc); }
+_cian()     	{ echo -ne "\033[36m""$1"$(__nc); }
 
 info(){
 	tput cnorm
 	echo -e "
-$(_magenta  "push_swap_guilletester "parser" Version 1.0 by gumoreno")
+$(_magenta  "push_swap_guilletester "parser" Version 1.1 by gumoreno")
+
+
+   Test if push_swap is handling input arguments correctly (based on how \"checher_linux\" does it).
 
 
    * How to use it:
@@ -71,6 +74,7 @@ ARG_ERROR=(
 	'./temp/push_swap 1a 2 3'
 	'./temp/push_swap 1 2 3 a 4 5'
 	'./temp/push_swap 1a23 '
+	'./temp/push_swap 1a23 -42'
 	'./temp/push_swap - 1 2 3  '
 	'./temp/push_swap 2147483648  '
 	'./temp/push_swap -2147483649  '
@@ -129,50 +133,50 @@ check_parsing(){
 	local FIRST_ERROR_FAILED=true
 	local FIRST_OK_FAILED=true
 
-	if [[ $ONLY_FAILED = false ]]; then
-			echo -e $(_cian "Wrong args check (output must be \"Error\"):")"\n"
+	if [[ "$ONLY_FAILED" = false ]]; then
+			echo -e $(_cian "Wrong args check (output should be \"Error\"):")"\n"
 	fi
 	for arg in "${ARG_ERROR[@]}"; do
- 		OUTPUT=$(eval $arg 2>&1)
+ 		OUTPUT=$(eval "$arg" 2>&1)
 		if ! [[ "$OUTPUT" = "Error"* ]]; then
-			if [[ $FIRST_ERROR_FAILED = true  && $ONLY_FAILED = true ]]; then
-				echo -e $(_cian "Wrong args check (output must be \"Error\"):")"\n"
+			if [[ "$FIRST_ERROR_FAILED" = true  && "$ONLY_FAILED" = true ]]; then
+				echo -e $(_cian "Wrong args check (output should be \"Error\"):")"\n"
 				FIRST_ERROR_FAILED=false
 			fi
 			echo -e $(_red " ✘ ")"."${arg:6}
-			# echo -ne  "\t\t" {$OUTPUT}"  "
+			# echo -ne  "\t\t" {"$OUTPUT"}"  "
 			PARSE_STATUS=0;
-		elif [ $ONLY_FAILED = false ]; then
+		elif [ "$ONLY_FAILED" = false ]; then
 			echo -e $(_green " ✔ ")"."${arg:6}
-			# echo -ne  "\t\t" {$OUTPUT}"  "
+			# echo -ne  "\t\t" {"$OUTPUT"}"  "
 		fi
     done
-	if [[ $ONLY_FAILED = true && $FIRST_ERROR_FAILED = false ]]; then
+	if [[ "$ONLY_FAILED" = true && "$FIRST_ERROR_FAILED" = false ]]; then
 			echo -e 
 	fi
-	if [[ $ONLY_FAILED = false ]]; then
-			echo -e "\n"$(_cian "Valid args check (output must not be \"Error\"):")"\n"
+	if [[ "$ONLY_FAILED" = false ]]; then
+			echo -e "\n"$(_cian "Valid args check (output should not be \"Error\"):")"\n"
 	fi
 	for arg in "${ARG_OK[@]}"; do
  		OUTPUT=$(eval $arg 2>&1)
 		if [[ "$OUTPUT" = "Error"* ]]; then
-			if [[ $FIRST_OK_FAILED = true && $ONLY_FAILED = true ]]; then
-				echo -e $(_cian "Valid args check (output must not be \"Error\"):")"\n"
+			if [[ "$FIRST_OK_FAILED" = true && "$ONLY_FAILED" = true ]]; then
+				echo -e $(_cian "Valid args check (output should not be \"Error\"):")"\n"
 				FIRST_OK_FAILED=false
 			fi
 			echo -e $(_red " ✘ ")"."${arg:6}
-			# echo -ne  "\t\t" {$OUTPUT}"  "
+			# echo -ne  "\t\t" {"$OUTPUT"}"  "
 			PARSE_STATUS=0;
-		elif [ $ONLY_FAILED = false ]; then
+		elif [ "$ONLY_FAILED" = false ]; then
 			echo -e $(_green " ✔ ")"."${arg:6}
-			# echo -ne  "\t\t" {$OUTPUT}"  "
+			# echo -ne  "\t\t" {"$OUTPUT"}"  "
 		fi
     done
-	if [[ $PARSE_STATUS = 1 && $ONLY_FAILED = true ]]; then
+	if [[ "$PARSE_STATUS" = 1 && "$ONLY_FAILED" = true ]]; then
 		echo -e $(_green " ✔ ")" Parsing: OK    "
 	fi
 	echo -e 
-	if [[ $ONLY_FAILED = true && $FIRST_OK_FAILED = true && $PARSE_STATUS = 0 ]]; then
+	if [[ "$ONLY_FAILED" = true && "$FIRST_OK_FAILED" = true && "$PARSE_STATUS" = 0 ]]; then
 		echo -e "\033[1A\033[1A"
 	fi
 }
@@ -198,8 +202,8 @@ init(){
 	trap 'tput cnorm; rm -r temp; exit;' EXIT
 }
 
-parsing $@
-init $@
+parsing "$@"
+init "$@"
 echo -e "\n"$(_blue "PARSING TEST - PUSH_SWAP")"\n"
 handle_exec
 check_parsing

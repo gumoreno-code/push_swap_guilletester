@@ -1,18 +1,22 @@
 #!/bin/bash
 
-__nc()			{ echo -e "\033[0m"; }
-_red()    		{ echo -ne "\033[31m$1"$(__nc); }
-_yellow()		{ echo -ne "\033[33m$1"$(__nc); }
-_yellow_bold()	{ echo -ne "\033[1;33m$1"$(__nc); }
-_blue()			{ echo -e "\033[34m$1"$(__nc); }
-_green()		{ echo -ne "\033[32m$1"$(__nc); }
-_magenta()		{ echo -ne "\033[35m$1"$(__nc); }
+__nc()      	{ echo -e "\033[0m"; }
+_red()      	{ echo -ne "\033[31m""$1"$(__nc); }
+_green()   		{ echo -ne "\033[32m""$1"$(__nc); }
+_yellow()		{ echo -ne "\033[33m""$1"$(__nc); }
+_yellow_bold()  { echo -ne "\033[1;33m""$1"$(__nc); }
+_blue()     	{ echo -ne "\033[34m""$1"$(__nc); }
+_magenta()     	{ echo -ne "\033[35m""$1"$(__nc); }
+_cian()     	{ echo -ne "\033[36m""$1"$(__nc); }
 
 info(){
 	tput cnorm
 	echo -e "
-$(_magenta  "push_swap_guilletester "eval" Version 1.0 by gumoreno")
+$(_magenta  "push_swap_guilletester "eval" Version 1.1 by gumoreno")
 
+
+   A battery of different tests will be run on your push_swap project.
+   
 
    * How to use it:
 	
@@ -85,7 +89,7 @@ check_norminette(){
 				NORM=false
 			fi
 		done < temp/norminette_output.txt 
-		if [ $NORM = true ]; then
+		if [ "$NORM" = true ]; then
 			echo -e "\n\n"$(_green " ✔ ")" Norminette: OK\n"
 		else 
 			echo -e "\n\n"$(_red " ✘ ")" Norminette: failed\n"
@@ -100,8 +104,8 @@ init(){
 	trap 'tput cnorm; rm -rf temp; exit;' EXIT
 }
 
-parsing $@
-init $@
+parsing "$@"
+init "$@"
 clear
 echo -e "\n"$(_blue "  EVALUATION TEST - PUSH_SWAP")"\n"
 handle_exec
