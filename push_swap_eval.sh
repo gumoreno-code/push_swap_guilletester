@@ -12,7 +12,7 @@ _cian()     	{ echo -ne "\033[36m""$1"$(__nc); }
 info(){
 	tput cnorm
 	echo -e "
-$(_magenta  "push_swap_guilletester "eval" Version 1.1 by gumoreno")
+$(_magenta  "push_swap_guilletester "eval" Version 1.2 by gumoreno")
 
 
    A battery of different tests will be run on your push_swap project.
@@ -39,7 +39,7 @@ $(_magenta  "push_swap_guilletester "eval" Version 1.1 by gumoreno")
 
 help(){
 	echo -e "
-$(_magenta  "push_swap_guilletester "eval" Version 1.0 by gumoreno")
+$(_magenta  "push_swap_guilletester "eval" Version 1.2 by gumoreno")
 	
 	$(_yellow  "--help")
 	"
@@ -89,11 +89,11 @@ check_norminette(){
 				NORM=false
 			fi
 		done < temp/norminette_output.txt 
-		if [ "$NORM" = true ]; then
+		if [ $NORM = true ]; then
 			echo -e "\n\n"$(_green " ✔ ")" Norminette: OK\n"
 		else 
 			echo -e "\n\n"$(_red " ✘ ")" Norminette: failed\n"
-		fi	
+		fi
 	fi
 
 }

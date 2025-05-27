@@ -13,5 +13,7 @@ There you will find three executable files:
 	./push_swap_eval.sh     --> A battery of different tests will be run on your push_swap project.
 
 You can find several flags to be used in each of the executable files. Check it with the --help flag.
+
+(push_swap_guilletester will run on both Linux and Mac)
        
 Enjoy it! :)

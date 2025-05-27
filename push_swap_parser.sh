@@ -12,7 +12,7 @@ _cian()     	{ echo -ne "\033[36m""$1"$(__nc); }
 info(){
 	tput cnorm
 	echo -e "
-$(_magenta  "push_swap_guilletester "parser" Version 1.1 by gumoreno")
+$(_magenta  "push_swap_guilletester "parser" Version 1.2 by gumoreno")
 
 
    Test if push_swap is handling input arguments correctly (based on how \"checher_linux\" does it).
@@ -33,7 +33,7 @@ $(_magenta  "push_swap_guilletester "parser" Version 1.1 by gumoreno")
 
 help(){
 	echo -e "
-$(_magenta  "push_swap_guilletester "parser" Version 1.0 by gumoreno")
+$(_magenta  "push_swap_guilletester "parser" Version 1.2 by gumoreno")
 	
 	$(_yellow  "--help")
 	"
@@ -79,7 +79,8 @@ ARG_ERROR=(
 	'./temp/push_swap 2147483648  '
 	'./temp/push_swap -2147483649  '
 	'./temp/push_swap 18446744073709551616  '
-	'./temp/push_swap 18446744073709551615 0 '
+	'./temp/push_swap 18446744073709551615 -42 '
+	'./temp/push_swap 42 -18446744073709551615 '
 	'./temp/push_swap 12345678912345  '
 	'./temp/push_swap hello world '
 	'./temp/push_swap "hello world" '
@@ -112,6 +113,9 @@ ARG_OK=(
 	'./temp/push_swap "42 2 3 -42" '
 	'./temp/push_swap " -1 2 3  " "41 42 43" '
 	'./temp/push_swap "-1 2 3" "41 42 43 " "500 501 502" '
+	'./temp/push_swap "-1 2 3" 41 42 43 "500 501 502" '
+	'./temp/push_swap "-1 2 3" "500 501 502" 41 42 43 '
+	'./temp/push_swap "-1 2 3 " 4 5 "6 7 8" 9 '
 	'./temp/push_swap -0 '
 	'./temp/push_swap +0 1 2 '
 	'./temp/push_swap  -01 002 +00003  '
@@ -125,7 +129,6 @@ ARG_OK=(
 	'./temp/push_swap -000000000000000000000000000000009 '
 	'./temp/push_swap 2147483647 '
 	'./temp/push_swap -2147483648 '
-	'./temp/push_swap "-1 2 3 " 4 5 "6 7 8" 9 '
 	'./temp/push_swap   '"'"'2 3 4 '"'"' 5 6 7 '"'"' 8 9 '"'"' '
 	'./temp/push_swap   '"'"'2 3 4 '"'"' 5 6 7 " 8 9 " '
 	'./temp/push_swap   -'"'"2"'"'8 -2 8  "35 100" '
@@ -136,50 +139,50 @@ check_parsing(){
 	local FIRST_ERROR_FAILED=true
 	local FIRST_OK_FAILED=true
 
-	if [[ "$ONLY_FAILED" = false ]]; then
+	if [[ $ONLY_FAILED = false ]]; then
 			echo -e $(_cian "Wrong args check (output should be \"Error\"):")"\n"
 	fi
 	for arg in "${ARG_ERROR[@]}"; do
  		OUTPUT=$(eval "$arg" 2>&1)
 		if ! [[ "$OUTPUT" = "Error"* ]]; then
-			if [[ "$FIRST_ERROR_FAILED" = true  && "$ONLY_FAILED" = true ]]; then
+			if [[ $FIRST_ERROR_FAILED = true  && $ONLY_FAILED = true ]]; then
 				echo -e $(_cian "Wrong args check (output should be \"Error\"):")"\n"
 				FIRST_ERROR_FAILED=false
 			fi
 			echo -e $(_red " ✘ ")"."${arg:6}
-			# echo -ne  "\t\t" {"$OUTPUT"}"  "
+			# echo -e  "\t\t" {"$OUTPUT"}"  "
 			PARSE_STATUS=0;
-		elif [ "$ONLY_FAILED" = false ]; then
+		elif [ $ONLY_FAILED = false ]; then
 			echo -e $(_green " ✔ ")"."${arg:6}
-			# echo -ne  "\t\t" {"$OUTPUT"}"  "
+			# echo -e  "\t\t" {"$OUTPUT"}"  "
 		fi
     done
-	if [[ "$ONLY_FAILED" = true && "$FIRST_ERROR_FAILED" = false ]]; then
+	if [[ $ONLY_FAILED = true && $FIRST_ERROR_FAILED = false ]]; then
 			echo -e 
 	fi
-	if [[ "$ONLY_FAILED" = false ]]; then
+	if [[ $ONLY_FAILED = false ]]; then
 			echo -e "\n"$(_cian "Valid args check (output should not be \"Error\"):")"\n"
 	fi
 	for arg in "${ARG_OK[@]}"; do
  		OUTPUT=$(eval $arg 2>&1)
 		if [[ "$OUTPUT" = "Error"* ]]; then
-			if [[ "$FIRST_OK_FAILED" = true && "$ONLY_FAILED" = true ]]; then
+			if [[ $FIRST_OK_FAILED = true && $ONLY_FAILED = true ]]; then
 				echo -e $(_cian "Valid args check (output should not be \"Error\"):")"\n"
 				FIRST_OK_FAILED=false
 			fi
 			echo -e $(_red " ✘ ")"."${arg:6}
-			# echo -ne  "\t\t" {"$OUTPUT"}"  "
+			# echo -e  "\t\t" {"$OUTPUT"}"  "
 			PARSE_STATUS=0;
-		elif [ "$ONLY_FAILED" = false ]; then
+		elif [ $ONLY_FAILED = false ]; then
 			echo -e $(_green " ✔ ")"."${arg:6}
-			# echo -ne  "\t\t" {"$OUTPUT"}"  "
+			# echo -e  "\t\t" {"$OUTPUT"}"  "
 		fi
     done
-	if [[ "$PARSE_STATUS" = 1 && "$ONLY_FAILED" = true ]]; then
+	if [[ $PARSE_STATUS = 1 && $ONLY_FAILED = true ]]; then
 		echo -e $(_green " ✔ ")" Parsing: OK    "
 	fi
 	echo -e 
-	if [[ "$ONLY_FAILED" = true && "$FIRST_OK_FAILED" = true && "$PARSE_STATUS" = 0 ]]; then
+	if [[ $ONLY_FAILED = true && $FIRST_OK_FAILED = true && $PARSE_STATUS = 0 ]]; then
 		echo -e "\033[1A\033[1A"
 	fi
 }
