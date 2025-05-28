@@ -12,7 +12,7 @@ _cian()     	{ echo -ne "\033[36m""$1"$(__nc); }
 info(){
 	tput cnorm
 	echo -e "
-$(_magenta  "push_swap_guilletester "tester" Version 1.2 by gumoreno")
+$(_magenta  "push_swap_guilletester "tester" Version 1.3 by gumoreno")
 
 
    Run your push_swap on multiple ramdom combinations of numbers and test its limits and if it sorts correctly.
@@ -45,7 +45,7 @@ $(_magenta  "push_swap_guilletester "tester" Version 1.2 by gumoreno")
 
 help(){
 	echo -e "
-$(_magenta  "push_swap_guilletester "tester" Version 1.2 by gumoreno")
+$(_magenta  "push_swap_guilletester "tester" Version 1.3 by gumoreno")
 	
 	$(_yellow  "--help")
 	"
@@ -267,7 +267,7 @@ init(){
 		COMB_NB="$1"
 	fi
 	MAX_NB_OP=0
-	MIN_NB_OP=0
+	MIN_NB_OP=-1
 	NB_OP_ACUM=0
 	OVERLIMIT_NB=0
 	if [[ $COMB_NB = 500 ]]; then
@@ -337,7 +337,7 @@ do
 			print_to_overlimit_log $COMB_NB
 		fi
 	fi
-	if [[ $NB_OP -lt $MIN_NB_OP || $MIN_NB_OP = 0 ]]; then
+	if [[ $NB_OP -lt $MIN_NB_OP || $MIN_NB_OP = -1 ]]; then
 		MIN_NB_OP=$NB_OP
 	fi 
 	NB_OP_ACUM=$(($NB_OP_ACUM + $NB_OP))
