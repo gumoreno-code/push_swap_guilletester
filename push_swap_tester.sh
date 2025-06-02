@@ -12,7 +12,7 @@ _cian()     	{ echo -ne "\033[36m""$1"$(__nc); }
 info(){
 	tput cnorm
 	echo -e "
-$(_magenta  "push_swap_guilletester "tester" Version 1.3 by gumoreno")
+$(_magenta  "push_swap_guilletester "tester" Version 1.4 by gumoreno")
 
 
    Run your push_swap on multiple ramdom combinations of numbers and test its limits and if it sorts correctly.
@@ -45,7 +45,7 @@ $(_magenta  "push_swap_guilletester "tester" Version 1.3 by gumoreno")
 
 help(){
 	echo -e "
-$(_magenta  "push_swap_guilletester "tester" Version 1.3 by gumoreno")
+$(_magenta  "push_swap_guilletester "tester" Version 1.4 by gumoreno")
 	
 	$(_yellow  "--help")
 	"
@@ -291,6 +291,9 @@ init(){
 		fi
 	order_failed=0;
 	op_sys=$(uname)
+	chmod 777 ./temp/push_swap
+	chmod 777 ./src/checker_linux
+	chmod 777 ./src/checker_Mac
 	mkdir -p ps_log/
 	tput civis
 	trap 'tput cnorm; rm -r temp; exit' INT TERM EXIT
@@ -326,11 +329,11 @@ do
 	elif [ "$ORDER" != "OK" ]; then
 		error_clear
 		echo -e "\n    Ooops... Error :( \n\n    Your push_swap probably does not handle the arguments correctly\n    or does not only print operations.\n "
-		exit 41
+		exit 1
 	fi
 	if [ $NB_OP -gt $MAX_NB_OP ]; then
 		MAX_NB_OP=$NB_OP
-	fi 
+	fi
 	if [ $NB_OP -gt $NB_OP_LIMIT ];then
 		OVERLIMIT_NB=$(($OVERLIMIT_NB + 1))
 		if [ $log = true ]; then
@@ -348,7 +351,7 @@ do
 done
 if [ $visual = false ]; then
 	i=$(($i - 1))
-	results 
+	results
 fi
 completed
 exit 0

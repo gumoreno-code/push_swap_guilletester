@@ -12,7 +12,7 @@ _cian()     	{ echo -ne "\033[36m""$1"$(__nc); }
 info(){
 	tput cnorm
 	echo -e "
-$(_magenta  "push_swap_guilletester "parser" Version 1.3 by gumoreno")
+$(_magenta  "push_swap_guilletester "parser" Version 1.4 by gumoreno")
 
 
    Test if push_swap is handling input arguments correctly (based on how \"checher_linux\" does it).
@@ -33,7 +33,7 @@ $(_magenta  "push_swap_guilletester "parser" Version 1.3 by gumoreno")
 
 help(){
 	echo -e "
-$(_magenta  "push_swap_guilletester "parser" Version 1.3 by gumoreno")
+$(_magenta  "push_swap_guilletester "parser" Version 1.4 by gumoreno")
 	
 	$(_yellow  "--help")
 	"
