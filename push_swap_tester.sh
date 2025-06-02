@@ -219,6 +219,9 @@ handle_exec(){
 	fi
 	$(mkdir -p ./temp)
 	$(cp ../push_swap ./temp/)
+	chmod 777 ./temp/push_swap
+	chmod 777 ./src/checker_linux
+	chmod 777 ./src/checker_Mac
 }
 
 parsing(){
@@ -291,9 +294,6 @@ init(){
 		fi
 	order_failed=0;
 	op_sys=$(uname)
-	chmod 777 ./temp/push_swap
-	chmod 777 ./src/checker_linux
-	chmod 777 ./src/checker_Mac
 	mkdir -p ps_log/
 	tput civis
 	trap 'tput cnorm; rm -r temp; exit' INT TERM EXIT
